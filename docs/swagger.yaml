@@ -7,6 +7,21 @@ definitions:
       success:
         type: boolean
     type: object
+  dto.PersonDto:
+    properties:
+      age:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      patronymic:
+        type: string
+      phone:
+        type: string
+      surname:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -14,6 +29,60 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /persons:
+    get:
+      parameters:
+      - description: Телефон клиента
+        in: query
+        name: phone
+        type: string
+      - description: Пароль клиента
+        in: query
+        name: password
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Login and Auth person
+      tags:
+      - Persons
+    post:
+      parameters:
+      - description: Объект клиента
+        in: body
+        name: person
+        schema:
+          $ref: '#/definitions/dto.PersonDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Create new person
+      tags:
+      - Persons
   /persons/suggestions:
     get:
       parameters:

@@ -1,4 +1,4 @@
-module bank-interface
+module github.com/Unbel1evab7e/bank-interface
 
 go 1.19
 
@@ -6,6 +6,8 @@ require (
 	github.com/Unbel1evab7e/guu v0.0.5
 	github.com/gin-gonic/gin v1.8.2
 	github.com/google/martian v2.1.0+incompatible
+	github.com/lib/pq v1.10.7
+	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.14.0
 	github.com/swaggo/files v1.0.0
 	github.com/swaggo/gin-swagger v1.5.3

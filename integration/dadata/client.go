@@ -1,7 +1,7 @@
 package dadata
 
 import (
-	"bank-interface/domain/properties"
+	"github.com/Unbel1evab7e/bank-interface/domain/properties"
 	"github.com/Unbel1evab7e/guu"
 )
 
