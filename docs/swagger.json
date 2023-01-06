@@ -9,7 +9,7 @@
     "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
-        "/persons": {
+        "/auth/addresses": {
             "get": {
                 "produces": [
                     "application/json"
@@ -17,18 +17,12 @@
                 "tags": [
                     "Persons"
                 ],
-                "summary": "Login and Auth person",
+                "summary": "Get All Suggestions of specified query",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Телефон клиента",
-                        "name": "phone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Пароль клиента",
-                        "name": "password",
+                        "description": "Строка адреса",
+                        "name": "query",
                         "in": "query"
                     }
                 ],
@@ -52,7 +46,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/persons": {
             "post": {
                 "produces": [
                     "application/json"
@@ -93,23 +89,53 @@
                 }
             }
         },
-        "/persons/suggestions": {
-            "get": {
+        "/persons/login": {
+            "post": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Persons"
                 ],
-                "summary": "Get All Suggestions of specified query",
+                "summary": "Login and Auth person",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Строка адреса",
-                        "name": "query",
-                        "in": "query"
+                        "description": "Объект логина",
+                        "name": "login",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDto"
+                        }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/persons/logout": {
+            "post": {
+                "tags": [
+                    "Persons"
+                ],
+                "summary": "Logout person",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -142,6 +168,21 @@
                 },
                 "success": {
                     "type": "boolean"
+                }
+            }
+        },
+        "dto.LoginDto": {
+            "type": "object",
+            "required": [
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
                 }
             }
         },

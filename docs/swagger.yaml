@@ -7,6 +7,16 @@ definitions:
       success:
         type: boolean
     type: object
+  dto.LoginDto:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    required:
+    - password
+    - phone
+    type: object
   dto.PersonDto:
     properties:
       age:
@@ -29,16 +39,12 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /persons:
+  /auth/addresses:
     get:
       parameters:
-      - description: Телефон клиента
+      - description: Строка адреса
         in: query
-        name: phone
-        type: string
-      - description: Пароль клиента
-        in: query
-        name: password
+        name: query
         type: string
       produces:
       - application/json
@@ -55,9 +61,10 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/domain.Response'
-      summary: Login and Auth person
+      summary: Get All Suggestions of specified query
       tags:
       - Persons
+  /persons:
     post:
       parameters:
       - description: Объект клиента
@@ -83,13 +90,14 @@ paths:
       summary: Create new person
       tags:
       - Persons
-  /persons/suggestions:
-    get:
+  /persons/login:
+    post:
       parameters:
-      - description: Строка адреса
-        in: query
-        name: query
-        type: string
+      - description: Объект логина
+        in: body
+        name: login
+        schema:
+          $ref: '#/definitions/dto.LoginDto'
       produces:
       - application/json
       responses:
@@ -105,7 +113,25 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/domain.Response'
-      summary: Get All Suggestions of specified query
+      summary: Login and Auth person
+      tags:
+      - Persons
+  /persons/logout:
+    post:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Logout person
       tags:
       - Persons
 swagger: "2.0"

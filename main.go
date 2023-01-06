@@ -178,6 +178,8 @@ func registerMiddleware(container *dig.Container, engine *gin.Engine) {
 	if err != nil {
 		logrus.Fatal("Failed to invoke logging middleware ", err)
 	}
+
+	err = container.Provide(middleware.NewSecurityMiddleware)
 }
 
 //	@title			Swagger Example API

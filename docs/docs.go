@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/persons": {
+        "/auth/addresses": {
             "get": {
                 "produces": [
                     "application/json"
@@ -24,18 +24,12 @@ const docTemplate = `{
                 "tags": [
                     "Persons"
                 ],
-                "summary": "Login and Auth person",
+                "summary": "Get All Suggestions of specified query",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Телефон клиента",
-                        "name": "phone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Пароль клиента",
-                        "name": "password",
+                        "description": "Строка адреса",
+                        "name": "query",
                         "in": "query"
                     }
                 ],
@@ -59,7 +53,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/persons": {
             "post": {
                 "produces": [
                     "application/json"
@@ -100,23 +96,53 @@ const docTemplate = `{
                 }
             }
         },
-        "/persons/suggestions": {
-            "get": {
+        "/persons/login": {
+            "post": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Persons"
                 ],
-                "summary": "Get All Suggestions of specified query",
+                "summary": "Login and Auth person",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Строка адреса",
-                        "name": "query",
-                        "in": "query"
+                        "description": "Объект логина",
+                        "name": "login",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDto"
+                        }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/persons/logout": {
+            "post": {
+                "tags": [
+                    "Persons"
+                ],
+                "summary": "Logout person",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -149,6 +175,21 @@ const docTemplate = `{
                 },
                 "success": {
                     "type": "boolean"
+                }
+            }
+        },
+        "dto.LoginDto": {
+            "type": "object",
+            "required": [
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
                 }
             }
         },
